@@ -8,9 +8,9 @@ import com.azure.messaging.servicebus.models.ServiceBusReceiveMode;
 public class Consumer {
     public static void main(String[] args) {
         var servidor = "sb-das1-2025.servicebus.windows.net";
-      
+
         String chave = System.getenv("CHAVE");
-        String queue = "queue-christyanassolini";
+        String queue = "queue-muriloteichert";
 
         ServiceBusProcessorClient processorClient =
             new ServiceBusClientBuilder()
@@ -31,6 +31,6 @@ public class Consumer {
             })
             .buildProcessorClient();
         
-        processorClient.start();
+        processorClient.start();;
     }
 }

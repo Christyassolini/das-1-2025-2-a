@@ -407,17 +407,142 @@ A formação de um arquiteto de software deve seguir o conceito do profissional 
 trade-off é a avaliação das consequências ao escolher uma opção em detrimento de outra dentro da arquitetura de software. Toda decisão arquitetural implica ganhos e perdas, e o papel do arquiteto é analisar cuidadosamente essas trocas para equilibrar prioridades como desempenho, segurança, escalabilidade, custo, manutenibilidade e tempo de entrega. Não existe solução perfeita; cada escolha traz benefícios em certos aspectos, mas também limitações em outros. Por exemplo, optar por uma arquitetura de microsserviços pode aumentar a escalabilidade e a flexibilidade, mas, ao mesmo tempo, elevar a complexidade operacional e os custos de monitoramento. O processo de análise de trade-offs exige considerar o contexto do negócio, os requisitos de qualidade e as restrições existentes, avaliando impactos de curto e longo prazo. Dessa forma, um arquiteto eficiente não busca eliminar os trade-offs, mas sim tomar decisões conscientes e justificadas, comunicando claramente às partes interessadas os motivos da escolha e os compromissos envolvidos.
 
 ---
+2º Bimestre
 
-# 2° Bimestre
-### Circuit Breacker
-Proteger a comunicação entre sistemas.
+## Padrão Circuit Breaker  
+[Documentação Microsoft](https://learn.microsoft.com/pt-br/azure/architecture/patterns/circuit-breaker?wt.mc_id=AZ-MVP-5003638)
 
-**Closed**
-Quando os sitema está certo.
+O Circuit Breaker é um padrão amplamente utilizado em sistemas distribuídos, aplicado para evitar que uma aplicação tente indefinidamente se comunicar com serviços instáveis, prejudicando a performance do sistema.
 
-**Open**
-Quando da ruim.
+### Funcionamento  
+- Baseado no comportamento de um disjuntor elétrico.  
+- Evita que chamadas fiquem travadas por falhas externas.  
 
-**Half-Open**
-De tempos em tempos ele vai para o estagio de meio aberto.
+### Estados  
+- **Fechado** → funcionamento normal  
+- **Aberto** → falhas detectadas (timeout, erro, lentidão)  
+- **Meio-aberto** → tenta reconectar após um intervalo; se falhar, volta ao estado aberto  
 
+---
+ 
+## CQRS — *Command Query Responsibility Segregation*
+
+Arquitetura que **separa operações de leitura e escrita** em diferentes estruturas de dados e camadas do sistema, visando aumento de performance e redução de problemas de concorrência.
+
+### Quando utilizar  
+- Problemas de performance sem possibilidade de escalar verticalmente.  
+- Muitos locks no banco de dados devido a concorrência.  
+
+### Funcionamento  
+- Banco principal → **escrita**  
+- Réplicas → **leitura**  
+- Replicação costuma ser assíncrona, podendo causar pequenos atrasos.
+
+---
+
+## Arquiteturas de Três Camadas  
+- **Monolito**: funcionalidades em um único código base  
+- **Distribuído (Microsserviços)**: funcionalidades separadas por domínio ou contexto  
+
+### Falácias de sistemas distribuídos  
+1. A rede é confiável  
+2. A latência é zero  
+3. A banda é infinita  
+4. A rede é segura  
+5. A topologia nunca muda  
+
+### Padrões comuns  
+- **Log distribuído**  
+- **Transações distribuídas**  
+
+### Arquitetura Pipeline  
+Fluxo sequencial composto por:  
+- Produtor  
+- Transformador  
+- Verificador  
+- Consumidor  
+
+---
+
+## Estilo de Arquitetura Microkernel
+
+#### Sistema Central  
+Representa o núcleo mínimo necessário para executar a aplicação. Os recursos adicionais são inseridos por “plug-ins”.
+
+#### Componentes de Plug-in  
+- Autônomos e independentes  
+- Contêm regras específicas e funcionalidades adicionais  
+- Podem ser alterados, substituídos ou adicionados sem mudar o núcleo  
+
+#### Registro  
+O sistema controla os plug-ins disponíveis por meio de um **registry**, que pode ser simples ou complexo.
+
+#### Contratos  
+Definem:  
+- comportamento  
+- entradas e saídas  
+- forma de comunicação entre núcleo e plug-ins  
+
+#### Pontos fortes
+- Simplicidade  
+- Baixo custo  
+- Testabilidade média  
+- Alta extensibilidade  
+
+#### Pontos fracos  
+- Escalabilidade limitada  
+- Baixa tolerância a falhas  
+
+---
+
+## Estilo de Arquitetura Microsserviços
+
+Arquitetura inspirada no DDD, segmentando o sistema em serviços independentes, cada um responsável por um contexto específico.
+
+### Características  
+
+### Distribuída  
+- Executados em máquinas diferentes  
+- Melhor uso de recursos  
+- Maior custo de performance por chamadas de rede  
+
+### Contexto Delimitado  
+Cada serviço contém tudo o que precisa para seu domínio específico.
+
+### Granularidade  
+- Deve capturar um domínio funcional  
+- Evitar microserviços pequenos demais  
+- Ajustar granularidade de forma iterativa  
+
+### Isolamento de Dados  
+Cada serviço tem seu próprio banco de dados.
+
+### Camada de API  
+Auxilia no acesso aos microserviços, sem atuar como orquestrador.
+
+### Reutilização Operacional  
+Padrão **sidecar** permite padronizar aspectos como:
+- logging  
+- monitoramento  
+- observabilidade  
+
+### Comunicação  
+Pode ser:  
+- **Síncrona**  
+- **Assíncrona**  
+
+### Coreografia vs Orquestração  
+- **Coreografia** → estilo baseado em eventos  
+- **Orquestração** → coordenação centralizada  
+
+### Transações e Sagas  
+Evitar transações entre serviços; usar Sagas para consistência eventual.
+
+### Pontos fortes  
+- Altíssima escalabilidade  
+- Evolutiva  
+- Elasticidade  
+
+### Pontos fracos  
+- Performance prejudicada por múltiplas chamadas remotas  
+- Complexidade operacional elevada 

@@ -4,16 +4,15 @@ public class Cliente {
     public static void main(String[] args) {
         var grupoFamilia = new Publisher();
 
-        var zezinho = new ConcreteSubscriber();
-        var huguinho = new ConcreteSubscriber();
-        var tia = new ConcreteSubscriber();
+        var pessoa1 = new ConcreteSubscribers();
+        var pessoa2 = new ConcreteSubscribers();
+        var pessoa3 = new ConcreteSubscribers();
 
-        grupoFamilia.subscribe(zezinho);
-        grupoFamilia.subscribe(huguinho);
-        grupoFamilia.subscribe(tia);
+        grupoFamilia.subscribe(pessoa1);
+        grupoFamilia.subscribe(pessoa2);
+        grupoFamilia.subscribe(pessoa3);
 
-        grupoFamilia.setMainState("BOM DIA");
-        grupoFamilia.notifySubscribers();
-        
+        grupoFamilia.setMainState("Bom dia");
+        grupoFamilia.notifySubscrbers();
     }
 }

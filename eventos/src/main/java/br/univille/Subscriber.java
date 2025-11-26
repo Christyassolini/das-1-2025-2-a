@@ -11,8 +11,9 @@ public class Subscriber {
         var topicName = "topic-das1-a";
 
         String chave = System.getenv("CHAVE");
-        var subscription = "subscription-christyanassolini";
-        
+
+        var subscription = "subscription-muriloteichert";
+
         ServiceBusProcessorClient processorClient =
             new ServiceBusClientBuilder()
             .fullyQualifiedNamespace(servidor)
@@ -33,6 +34,6 @@ public class Subscriber {
             })
             .buildProcessorClient();
         
-        processorClient.start();
+            processorClient.start();;
     }
 }
